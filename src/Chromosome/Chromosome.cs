@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 public class Chromosome<TGene, TCollection> : IChromosome<TGene, TCollection>
@@ -41,8 +42,18 @@ public class Chromosome<TGene, TCollection> : IChromosome<TGene, TCollection>
         return new Chromosome<TGene, TCollection>(_genes);
     }
 
-    public bool Equals(IChromosome<TGene, TCollection> other)
+    public IEnumerator<TGene> GetEnumerator()
     {
-        return false;
+        return _genes.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+    public override string ToString()
+    {
+        return $"[{string.Join(", ", _genes)}]";
     }
 }

@@ -19,6 +19,10 @@
 # Mono auto generated files
 mono_crash.*
 
+# .sln and .vscode
+*.sln
+.vscode/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
