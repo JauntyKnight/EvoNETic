@@ -37,6 +37,29 @@ public class Chromosome<TGene, TCollection> : IChromosome<TGene, TCollection>
         Length = _genes.Count;
     }
 
+    public Chromosome(IChromosome<TGene, TCollection> chromosome)
+    {
+        _genes = new TCollection();
+
+        foreach (var gene in chromosome)
+        {
+            _genes.Add(gene);
+        }
+
+        Length = _genes.Count;
+        Fitness = chromosome.Fitness;
+    }
+
+    public static implicit operator TCollection(Chromosome<TGene, TCollection> chromosome)
+    {
+        return chromosome._genes;
+    }
+
+    public static implicit operator Chromosome<TGene, TCollection>(TCollection genes)
+    {
+        return new Chromosome<TGene, TCollection>(genes);
+    }
+
     public IChromosome<TGene, TCollection> Clone()
     {
         return new Chromosome<TGene, TCollection>(_genes);
