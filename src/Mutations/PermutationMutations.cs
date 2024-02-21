@@ -52,12 +52,13 @@ public class RotateToRightMutation<TGene, TCollection> : IMutation<TGene, TColle
 
         var genes = new List<TGene>(result);
 
-        int i = _random.Next(genes.Count - 2);  // the start index of the subset of genes to rotate
-        int j = _random.Next(1, genes.Count);  // the length of the subset of genes to rotate
+        int i = _random.Next(0, genes.Count - 1);  // the start index of the subset of genes to rotate
+        int j = _random.Next(2, genes.Count);  // the length of the subset of genes to rotate
         int k = _random.Next(1, j - 1);  // by how many positions to rotate the subset of genes
 
         var subset = new TGene[j];
 
+        // Console.WriteLine($"i: {i}, j: {j}, k: {k}");
 
         // create the subset of genes
         for (int l = 0; l < j; l++)
@@ -68,7 +69,7 @@ public class RotateToRightMutation<TGene, TCollection> : IMutation<TGene, TColle
         // rotate the subset of genes to the right by k positions
         for (int l = 0; l < j; l++)
         {
-            genes[(i + l + k) % genes.Count] = subset[l];
+            genes[(i + l) % genes.Count] = subset[(l + k) % j];
         }
 
         result = new Chromosome<TGene, TCollection>(genes);
@@ -127,8 +128,8 @@ public class InversionMutation<TGene, TCollection> : IMutation<TGene, TCollectio
 
         var genes = new List<TGene>(result);
 
-        int i = _random.Next(genes.Count - 2);  // the start index of the subset of genes to invert
-        int j = _random.Next(1, genes.Count - i);  // the length of the subset of genes to invert
+        int i = _random.Next(genes.Count - 1);  // the start index of the subset of genes to invert
+        int j = _random.Next(2, genes.Count);  // the length of the subset of genes to invert
 
         var subset = new TGene[j];
 
@@ -199,7 +200,7 @@ public class SwapMutation<TGene, TCollection> : IMutation<TGene, TCollection>
         var genes = new List<TGene>(result);
 
         int i = _random.Next(genes.Count - 1);  // the first index of the subset of genes to swap
-        int j = _random.Next(i + 1, genes.Count);  // the second index of the subset of genes to swap
+        int j = _random.Next(genes.Count - 1);  // the second index of the subset of genes to swap
 
         (genes[i], genes[j]) = (genes[j], genes[i]);
 
