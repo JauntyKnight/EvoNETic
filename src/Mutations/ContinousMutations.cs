@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 
 
-public class GaussianMutation<TCollection> : IMutation<double, TCollection> 
+public class GaussianMutation<TCollection, TFitness> : IMutation<double, TCollection, TFitness>
     where TCollection : ICollection<double>, new()
+    where TFitness : IComparable<TFitness>
 {
     private Random _random;
     private double _mu;
@@ -17,14 +18,14 @@ public class GaussianMutation<TCollection> : IMutation<double, TCollection>
     /// <param name="sigma">The standard deviation of the distribution</param>
     /// <param name="indpb">The probability of replacing a single gene</param>
     /// <param name="random">The random provider (optional)</param>
-    public GaussianMutation(double mu, double sigma, double indpb, Random random=null)
+    public GaussianMutation(double mu, double sigma, double indpb, Random random = null)
     {
         _random = random ?? new Random();
         _mu = mu;
         _sigma = sigma;
         _indpb = indpb;
     }
-    
+
     /// <summary>
     /// Mutate the chromosome by replacing each gene with a random integer value from a uniform distribution.
     /// </summary>
@@ -33,7 +34,7 @@ public class GaussianMutation<TCollection> : IMutation<double, TCollection>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public IChromosome<double, TCollection> Mutate(IChromosome<double, TCollection> chromosome, double mutationProbability)
+    public IChromosome<double, TCollection, TFitness> Mutate(IChromosome<double, TCollection, TFitness> chromosome, double mutationProbability)
     {
         if (chromosome == null) throw new ArgumentNullException(nameof(chromosome));
         if (mutationProbability < 0 || mutationProbability > 1) throw new ArgumentOutOfRangeException(nameof(mutationProbability), "The probability has to be in the range [0, 1].");
@@ -55,6 +56,6 @@ public class GaussianMutation<TCollection> : IMutation<double, TCollection>
             }
         }
 
-        return new Chromosome<double, TCollection>(result_genes);
+        return new Chromosome<double, TCollection, TFitness>(result_genes);
     }
 }

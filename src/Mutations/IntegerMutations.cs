@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 
 
-public class UniformIntMutation<TCollection> : IMutation<int, TCollection> 
+public class UniformIntMutation<TCollection, TFitness> : IMutation<int, TCollection, TFitness>
     where TCollection : ICollection<int>, new()
+    where TFitness : IComparable<TFitness>
 {
     private Random _random;
     private int _minValue;
@@ -17,14 +18,14 @@ public class UniformIntMutation<TCollection> : IMutation<int, TCollection>
     /// <param name="maxValue">The max value of the distribution</param>
     /// <param name="indpb">The probability of replacing a single gene</param>
     /// <param name="random">The random provider (optional)</param>
-    public UniformIntMutation(int minValue, int maxValue, double indpb, Random random=null)
+    public UniformIntMutation(int minValue, int maxValue, double indpb, Random random = null)
     {
         _random = random ?? new Random();
         _minValue = minValue;
         _maxValue = maxValue;
         _indpb = indpb;
     }
-    
+
     /// <summary>
     /// Mutate the chromosome by replacing each gene with a random integer value from a uniform distribution.
     /// </summary>
@@ -33,7 +34,7 @@ public class UniformIntMutation<TCollection> : IMutation<int, TCollection>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public IChromosome<int, TCollection> Mutate(IChromosome<int, TCollection> chromosome, double mutationProbability)
+    public IChromosome<int, TCollection, TFitness> Mutate(IChromosome<int, TCollection, TFitness> chromosome, double mutationProbability)
     {
         if (chromosome == null) throw new ArgumentNullException(nameof(chromosome));
         if (mutationProbability < 0 || mutationProbability > 1) throw new ArgumentOutOfRangeException(nameof(mutationProbability), "The probability has to be in the range [0, 1].");
@@ -55,6 +56,6 @@ public class UniformIntMutation<TCollection> : IMutation<int, TCollection>
             }
         }
 
-        return new Chromosome<int, TCollection>(result_genes);
+        return new Chromosome<int, TCollection, TFitness>(result_genes);
     }
 }

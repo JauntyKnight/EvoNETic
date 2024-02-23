@@ -2,17 +2,18 @@ using System;
 using System.Collections.Generic;
 
 
-public class OnePointCrossover<TGene, TCollection> : ICrossover<TGene, TCollection>
+public class OnePointCrossover<TGene, TCollection, TFitness> : ICrossover<TGene, TCollection, TFitness>
     where TGene : IEquatable<TGene>
     where TCollection : ICollection<TGene>, new()
-{ 
+    where TFitness : IComparable<TFitness>
+{
     private Random _random;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="OnePointCrossover{TGene, TCollection}"/> class.
     /// </summary>
     /// <param name="random">The random generator (optional)</param>
-    public OnePointCrossover(Random random=null)
+    public OnePointCrossover(Random random = null)
     {
         _random = random ?? new Random();
     }
@@ -25,7 +26,7 @@ public class OnePointCrossover<TGene, TCollection> : ICrossover<TGene, TCollecti
     /// <param name="chromosome2"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public IChromosome<TGene, TCollection> Cross(IChromosome<TGene, TCollection> chromosome1, IChromosome<TGene, TCollection> chromosome2)
+    public IChromosome<TGene, TCollection, TFitness> Cross(IChromosome<TGene, TCollection, TFitness> chromosome1, IChromosome<TGene, TCollection, TFitness> chromosome2)
     {
         if (chromosome1.Length != chromosome2.Length)
         {
@@ -35,7 +36,7 @@ public class OnePointCrossover<TGene, TCollection> : ICrossover<TGene, TCollecti
         int split_point = _random.Next(1, chromosome1.Length - 1);  // how many genes to take from chromosome1
 
         var genes = new TCollection();
-        
+
         var enumerator1 = chromosome1.GetEnumerator();
         var enumerator2 = chromosome2.GetEnumerator();
 
@@ -53,6 +54,6 @@ public class OnePointCrossover<TGene, TCollection> : ICrossover<TGene, TCollecti
             enumerator2.MoveNext();
         }
 
-        return new Chromosome<TGene, TCollection>(genes);
+        return new Chromosome<TGene, TCollection, TFitness>(genes);
     }
 }

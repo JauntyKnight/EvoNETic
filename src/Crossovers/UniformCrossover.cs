@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 
-public class UniformCrossover<TGene, TCollection> : ICrossover<TGene, TCollection>
+public class UniformCrossover<TGene, TCollection, TFitness> : ICrossover<TGene, TCollection, TFitness>
     where TGene : IEquatable<TGene>
     where TCollection : ICollection<TGene>, new()
+    where TFitness : IComparable<TFitness>
 {
     private readonly Random _random;
 
@@ -11,12 +12,12 @@ public class UniformCrossover<TGene, TCollection> : ICrossover<TGene, TCollectio
     /// Initializes a new instance of the <see cref="UniformCrossover{TGene, TCollection}"/> class.
     /// </summary>
     /// <param name="random"></param>
-    public UniformCrossover(Random random=null)
+    public UniformCrossover(Random random = null)
     {
         _random = random ?? new Random();
     }
 
-    public IChromosome<TGene, TCollection> Cross(IChromosome<TGene, TCollection> chromosome1, IChromosome<TGene, TCollection> chromosome2)
+    public IChromosome<TGene, TCollection, TFitness> Cross(IChromosome<TGene, TCollection, TFitness> chromosome1, IChromosome<TGene, TCollection, TFitness> chromosome2)
     {
         if (chromosome1.Length != chromosome2.Length)
         {
@@ -43,6 +44,6 @@ public class UniformCrossover<TGene, TCollection> : ICrossover<TGene, TCollectio
             enumerator2.MoveNext();
         }
 
-        return new Chromosome<TGene, TCollection>(offspring);
+        return new Chromosome<TGene, TCollection, TFitness>(offspring);
     }
 }

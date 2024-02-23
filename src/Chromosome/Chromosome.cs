@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Chromosome<TGene, TCollection> : IChromosome<TGene, TCollection>
+public class Chromosome<TGene, TCollection, TFitness> : IChromosome<TGene, TCollection, TFitness>
     where TGene : IEquatable<TGene>
     where TCollection : ICollection<TGene>, new()
+    where TFitness : IComparable<TFitness>
 {
     public int Length { get; }
-    public double Fitness { get; set; }
+    public TFitness Fitness { get; set; }
 
     private TCollection _genes;
 
@@ -21,13 +22,13 @@ public class Chromosome<TGene, TCollection> : IChromosome<TGene, TCollection>
         }
 
         Length = _genes.Count;
-        Fitness = 0;
+        Fitness = default;
     }
 
     public Chromosome(Func<TGene> geneFactory, int length)
     {
         _genes = new TCollection();
-        Fitness = 0;
+        Fitness = default;
 
         for (int i = 0; i < length; i++)
         {
@@ -37,7 +38,7 @@ public class Chromosome<TGene, TCollection> : IChromosome<TGene, TCollection>
         Length = _genes.Count;
     }
 
-    public Chromosome(IChromosome<TGene, TCollection> chromosome)
+    public Chromosome(IChromosome<TGene, TCollection, TFitness> chromosome)
     {
         _genes = new TCollection();
 
@@ -50,19 +51,26 @@ public class Chromosome<TGene, TCollection> : IChromosome<TGene, TCollection>
         Fitness = chromosome.Fitness;
     }
 
-    public static implicit operator TCollection(Chromosome<TGene, TCollection> chromosome)
+    public static implicit operator TCollection(Chromosome<TGene, TCollection, TFitness> chromosome)
     {
-        return chromosome._genes;
+        TCollection genes = new TCollection();
+
+        foreach (var gene in chromosome)
+        {
+            genes.Add(gene);
+        }
+
+        return genes;
     }
 
-    public static implicit operator Chromosome<TGene, TCollection>(TCollection genes)
+    public static implicit operator Chromosome<TGene, TCollection, TFitness>(TCollection genes)
     {
-        return new Chromosome<TGene, TCollection>(genes);
+        return new Chromosome<TGene, TCollection, TFitness>(genes);
     }
 
-    public IChromosome<TGene, TCollection> Clone()
+    public IChromosome<TGene, TCollection, TFitness> Clone()
     {
-        return new Chromosome<TGene, TCollection>(_genes);
+        return new Chromosome<TGene, TCollection, TFitness>(_genes);
     }
 
     public IEnumerator<TGene> GetEnumerator()

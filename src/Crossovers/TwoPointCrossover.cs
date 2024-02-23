@@ -1,18 +1,19 @@
 using System;
 using System.Collections.Generic;
 
-public class TwoPointCrossover<TGene, TCollection> : ICrossover<TGene, TCollection> 
+public class TwoPointCrossover<TGene, TCollection, TFitness> : ICrossover<TGene, TCollection, TFitness>
     where TGene : IEquatable<TGene>
     where TCollection : ICollection<TGene>, new()
+    where TFitness : IComparable<TFitness>
 {
     private Random _random;
 
-    public TwoPointCrossover(Random random=null)
+    public TwoPointCrossover(Random random = null)
     {
         _random = random ?? new Random();
     }
 
-    public IChromosome<TGene, TCollection> Cross(IChromosome<TGene, TCollection> chromosome1, IChromosome<TGene, TCollection> chromosome2)
+    public IChromosome<TGene, TCollection, TFitness> Cross(IChromosome<TGene, TCollection, TFitness> chromosome1, IChromosome<TGene, TCollection, TFitness> chromosome2)
     {
         if (chromosome1.Length != chromosome2.Length)
         {
@@ -53,7 +54,7 @@ public class TwoPointCrossover<TGene, TCollection> : ICrossover<TGene, TCollecti
             enumerator2.MoveNext();
         }
 
-        return new Chromosome<TGene, TCollection>(offspring);
+        return new Chromosome<TGene, TCollection, TFitness>(offspring);
     }
 }
 

@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 
 
-public class OrderCrossover<TGene, TCollection> : ICrossover<TGene, TCollection>
+public class OrderCrossover<TGene, TCollection, TFitness> : ICrossover<TGene, TCollection, TFitness>
     where TGene : IEquatable<TGene>
     where TCollection : ICollection<TGene>, new()
+    where TFitness : IComparable<TFitness>
 {
     private Random _random;
 
@@ -12,7 +13,7 @@ public class OrderCrossover<TGene, TCollection> : ICrossover<TGene, TCollection>
     /// Initializes a new instance of the <see cref="OrderCrossover{TGene, TCollection}"/> class.
     /// </summary>
     /// <param name="random"></param>
-    public OrderCrossover(Random random=null)
+    public OrderCrossover(Random random = null)
     {
         _random = random ?? new Random();
     }
@@ -26,7 +27,7 @@ public class OrderCrossover<TGene, TCollection> : ICrossover<TGene, TCollection>
     /// <param name="chromosome2"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    public IChromosome<TGene, TCollection> Cross(IChromosome<TGene, TCollection> chromosome1, IChromosome<TGene, TCollection> chromosome2)
+    public IChromosome<TGene, TCollection, TFitness> Cross(IChromosome<TGene, TCollection, TFitness> chromosome1, IChromosome<TGene, TCollection, TFitness> chromosome2)
     {
         if (chromosome1.Length != chromosome2.Length)
         {
@@ -53,21 +54,26 @@ public class OrderCrossover<TGene, TCollection> : ICrossover<TGene, TCollection>
         // reset enumerator1
         enumerator1 = chromosome1.GetEnumerator();
 
-        for (int i = 0; i < length; ++i) {
-            if (i >= index1 && i < index2) {
+        for (int i = 0; i < length; ++i)
+        {
+            if (i >= index1 && i < index2)
+            {
                 offspring.Add(enumerator1.Current);
-            } else {
-                while (used_vals.Contains(enumerator2.Current)) {
+            }
+            else
+            {
+                while (used_vals.Contains(enumerator2.Current))
+                {
                     enumerator2.MoveNext();
                 }
-                
+
                 offspring.Add(enumerator2.Current);
             }
 
             enumerator1.MoveNext();
         }
-        
 
-        return new Chromosome<TGene, TCollection>(offspring);
+
+        return new Chromosome<TGene, TCollection, TFitness>(offspring);
     }
 }
