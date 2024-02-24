@@ -7,5 +7,5 @@ public interface IMutation<TGene, TCollection, TFitness>
     where TCollection : ICollection<TGene>
     where TFitness : IComparable<TFitness>
 {
-    IChromosome<TGene, TCollection, TFitness> Mutate(IChromosome<TGene, TCollection, TFitness> chromosome, double mutationProbability);
+    IChromosome<TGene, TCollection, TFitness> Mutate(IChromosome<TGene, TCollection, TFitness> chromosome);
 }

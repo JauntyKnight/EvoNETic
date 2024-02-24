@@ -8,14 +8,16 @@ public class RotateToRightMutation<TGene, TCollection, TFitness> : IMutation<TGe
     where TFitness : IComparable<TFitness>
 {
     private Random _random;
+    private readonly double _mutationProbability;
 
     /// <summary>
     /// Mutate the chromosome by rotating a subset of genes to the right.
     /// </summary>
     /// <param name="random">The random numbers generator (optional)</param>
-    public RotateToRightMutation(Random random = null)
+    public RotateToRightMutation(double mutationProbability, Random random = null)
     {
         _random = random ?? new Random();
+        _mutationProbability = mutationProbability;
     }
 
     /// <summary>
@@ -39,12 +41,11 @@ public class RotateToRightMutation<TGene, TCollection, TFitness> : IMutation<TGe
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public IChromosome<TGene, TCollection, TFitness> Mutate(IChromosome<TGene, TCollection, TFitness> chromosome, double mutationProbability)
+    public IChromosome<TGene, TCollection, TFitness> Mutate(IChromosome<TGene, TCollection, TFitness> chromosome)
     {
         if (chromosome == null) throw new ArgumentNullException(nameof(chromosome));
-        if (mutationProbability < 0 || mutationProbability > 1) throw new ArgumentOutOfRangeException(nameof(mutationProbability), "The probability has to be in the range [0, 1].");
 
-        if (_random.NextDouble() > mutationProbability)
+        if (_random.NextDouble() > _mutationProbability)
         {
             return chromosome;
         }
@@ -86,14 +87,16 @@ public class InversionMutation<TGene, TCollection, TFitness> : IMutation<TGene, 
     where TFitness : IComparable<TFitness>
 {
     private Random _random;
+    private readonly double _mutationProbability;
 
     /// <summary>
     /// Mutate the chromosome by inverting a subset of genes.
     /// </summary>
     /// <param name="random">The random numbers generator (optional)</param>
-    public InversionMutation(Random random = null)
+    public InversionMutation(double mutationProbability, Random random = null)
     {
         _random = random ?? new Random();
+        _mutationProbability = mutationProbability;
     }
 
     /// <summary>
@@ -116,12 +119,11 @@ public class InversionMutation<TGene, TCollection, TFitness> : IMutation<TGene, 
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public IChromosome<TGene, TCollection, TFitness> Mutate(IChromosome<TGene, TCollection, TFitness> chromosome, double mutationProbability)
+    public IChromosome<TGene, TCollection, TFitness> Mutate(IChromosome<TGene, TCollection, TFitness> chromosome)
     {
         if (chromosome == null) throw new ArgumentNullException(nameof(chromosome));
-        if (mutationProbability < 0 || mutationProbability > 1) throw new ArgumentOutOfRangeException(nameof(mutationProbability), "The probability has to be in the range [0, 1].");
 
-        if (_random.NextDouble() > mutationProbability)
+        if (_random.NextDouble() > _mutationProbability)
         {
             return chromosome;
         }
@@ -159,14 +161,16 @@ public class SwapMutation<TGene, TCollection, TFitness> : IMutation<TGene, TColl
     where TFitness : IComparable<TFitness>
 {
     private Random _random;
+    private readonly double _mutationProbability;
 
     /// <summary>
     /// Mutate the chromosome by swapping two genes.
     /// </summary>
     /// <param name="random">The random numbers generator (optional)</param>
-    public SwapMutation(Random random = null)
+    public SwapMutation(double mutationProbability, Random random = null)
     {
         _random = random ?? new Random();
+        _mutationProbability = mutationProbability;
     }
 
     /// <summary>
@@ -188,12 +192,11 @@ public class SwapMutation<TGene, TCollection, TFitness> : IMutation<TGene, TColl
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public IChromosome<TGene, TCollection, TFitness> Mutate(IChromosome<TGene, TCollection, TFitness> chromosome, double mutationProbability)
+    public IChromosome<TGene, TCollection, TFitness> Mutate(IChromosome<TGene, TCollection, TFitness> chromosome)
     {
         if (chromosome == null) throw new ArgumentNullException(nameof(chromosome));
-        if (mutationProbability < 0 || mutationProbability > 1) throw new ArgumentOutOfRangeException(nameof(mutationProbability), "The probability has to be in the range [0, 1].");
 
-        if (_random.NextDouble() > mutationProbability)
+        if (_random.NextDouble() > _mutationProbability)
         {
             return chromosome;
         }

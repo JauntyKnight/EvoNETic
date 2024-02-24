@@ -6,10 +6,11 @@ public class UniformIntMutation<TCollection, TFitness> : IMutation<int, TCollect
     where TCollection : ICollection<int>, new()
     where TFitness : IComparable<TFitness>
 {
-    private Random _random;
-    private int _minValue;
-    private int _maxValue;
-    private double _indpb;  // the probability of each gene getting mutated
+    private readonly Random _random;
+    private readonly int _minValue;
+    private readonly int _maxValue;
+    private readonly double _indpb;  // the probability of each gene getting mutated
+    private readonly double _mutationProbability;  // the probability of the chromosome getting mutated
 
     /// <summary>
     /// Mutate the chromosome by replacing each gene with a random integer value from a uniform distribution.
@@ -18,12 +19,13 @@ public class UniformIntMutation<TCollection, TFitness> : IMutation<int, TCollect
     /// <param name="maxValue">The max value of the distribution</param>
     /// <param name="indpb">The probability of replacing a single gene</param>
     /// <param name="random">The random provider (optional)</param>
-    public UniformIntMutation(int minValue, int maxValue, double indpb, Random random = null)
+    public UniformIntMutation(double mutation, int minValue, int maxValue, double indpb, Random random = null)
     {
         _random = random ?? new Random();
         _minValue = minValue;
         _maxValue = maxValue;
         _indpb = indpb;
+        _mutationProbability = mutation;
     }
 
     /// <summary>
@@ -34,17 +36,17 @@ public class UniformIntMutation<TCollection, TFitness> : IMutation<int, TCollect
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public IChromosome<int, TCollection, TFitness> Mutate(IChromosome<int, TCollection, TFitness> chromosome, double mutationProbability)
+    public IChromosome<int, TCollection, TFitness> Mutate(IChromosome<int, TCollection, TFitness> chromosome)
     {
         if (chromosome == null) throw new ArgumentNullException(nameof(chromosome));
-        if (mutationProbability < 0 || mutationProbability > 1) throw new ArgumentOutOfRangeException(nameof(mutationProbability), "The probability has to be in the range [0, 1].");
+
+
+        if (_random.NextDouble() > _mutationProbability)
+        {
+            return chromosome;
+        }
 
         var result = chromosome.Clone();
-
-        if (_random.NextDouble() > mutationProbability)
-        {
-            return result;
-        }
 
         var result_genes = new List<int>(result);
 
