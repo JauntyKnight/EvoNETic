@@ -47,12 +47,12 @@ public abstract class AlgorithmBase<TGene, TCollection, TFitness> : IEvolutionar
 
     protected void PrintHeader()
     {
-        Console.WriteLine(String.Format("{0, -5} | {1, -5} | {1, -10} | {1, -10} | {1, -10}", "Gen", "Time", "Generation Max", "Generation Min", "All Time Best"));
+        Console.WriteLine(String.Format("{0, -5} | {1, -5} | {2, -10} | {3, -10} | {4, -10}", "Gen", "Time", "Generation Max", "Generation Min", "All Time Best"));
     }
 
     protected void PrintProgress(int generation, IList<IChromosome<TGene, TCollection, TFitness>> population)
     {
-        Console.WriteLine(String.Format("{0, -5} | {1, -5} | {1, -10} | {1, -10} | {1, -10}", generation, TimeElapsed, population.First().Fitness, population.Last().Fitness, BestChromosome.Fitness));
+        Console.WriteLine(String.Format("{0, -5} | {1, -5} | {2, -10} | {3, -10} | {4, -10}", generation, TimeElapsed, population.First().Fitness, population.Last().Fitness, BestChromosome.Fitness));
     }
 }
 

@@ -15,11 +15,6 @@ public class Population<TGene, TCollection, TFitness> : IPopulation<TGene, TColl
     {
         Chromosomes = new List<IChromosome<TGene, TCollection, TFitness>>(chromosomes);
         Size = Chromosomes.Count;
-
-        foreach (var chromosome in Chromosomes)
-        {
-            Chromosomes.Add(chromosome);
-        }
     }
 
     public Population(ICollection<ICollection<TGene>> genotype)

@@ -46,14 +46,16 @@ public class EAMuPlusLambda<TGene, TCollection, TFitness> : AlgorithmBase<TGene,
         for (int generation = 0; generation < GenerationsNumber; generation++)
         {
             // check the stoping criteria
-            if (_targetFitness is not null && BestChromosome is not null && BestChromosome.Fitness.CompareTo(_targetFitness) >= 0)
-            {
-                Console.WriteLine("Target fitness reached, stopping the algorithm");
-            }
-            if (_maxTime is not null && TimeElapsed.CompareTo(_maxTime) >= 0)
-            {
-                Console.WriteLine("Max time reached, stopping the algorithm");
-            }
+            // if (_targetFitness != default(TFitness) && BestChromosome is not null && BestChromosome.Fitness.CompareTo(_targetFitness) >= 0)
+            // {
+            //     Console.WriteLine("Target fitness reached, stopping the algorithm");
+            //     return;
+            // }
+            // if (_maxTime is not null && TimeElapsed.CompareTo(_maxTime) >= 0)
+            // {
+            //     Console.WriteLine("Max time reached, stopping the algorithm");
+            //     return;
+            // }
 
             // evaluate the fitness of each chromosome
             foreach (var chromosome in population)
