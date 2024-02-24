@@ -9,9 +9,10 @@ public interface ISelection<TGene, TCollection, TFitness>
     where TFitness : IComparable<TFitness>
 {
     /// <summary>
-    /// Selects a list of chromosomes from the population, according to their fitness.
+    /// Selects a list of count chromosomes from the population, according to their fitness.
+    /// All Selection classes assume that the population's fitness is already calculated.
     /// </summary>
     /// <param name="population"></param>
     /// <returns></returns>
-    IList<IChromosome<TGene, TCollection, TFitness>> Select(IList<IChromosome<TGene, TCollection, TFitness>> population);
+    IList<IChromosome<TGene, TCollection, TFitness>> Select(IPopulation<TGene, TCollection, TFitness> population, int count);
 }
