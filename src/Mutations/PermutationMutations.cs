@@ -61,8 +61,6 @@ namespace EvoNETic
 
             var subset = new TGene[j];
 
-            // Console.WriteLine($"i: {i}, j: {j}, k: {k}");
-
             // create the subset of genes
             for (int l = 0; l < j; l++)
             {

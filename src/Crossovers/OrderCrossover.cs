@@ -39,22 +39,14 @@ namespace EvoNETic
             var segment_start = _random.Next(length);
             var segment_finsih = segment_start + _random.Next(length);
 
-            // Console.WriteLine(segment_start);
-            // Console.WriteLine(segment_finsih);
-
             var offspring = new TCollection();
-            // Console.WriteLine($"offspring: {offspring.Count}");
             var enumerator1 = chromosome1.GetEnumerator();
             var enumerator2 = chromosome2.GetEnumerator();
             var used_vals = new HashSet<TGene>();
             var all_vals = new HashSet<TGene>();
 
-            // Console.WriteLine($"enumerator1: {enumerator1.Current}");
-            // Console.WriteLine($"enumerator2: {enumerator2.Current}");
             enumerator1.MoveNext();
             enumerator2.MoveNext();
-
-            // Console.WriteLine("Starting crossover");
 
             for (int i = 0; i < Math.Min(length, segment_finsih); ++i)
             {
@@ -91,42 +83,8 @@ namespace EvoNETic
                 enumerator1.MoveNext();
             }
 
-            // Console.WriteLine("Finished crossover");
-
             if (all_vals.Count != length)
             {
-                Console.WriteLine($"segment_start: {segment_start}, segment_end: {segment_finsih}");
-                Console.WriteLine($"all values: {all_vals.Count}, Length: {length}");
-                Console.Write("Enumerator1: [");
-                enumerator1.Reset();
-                enumerator2.Reset();
-                while (enumerator1.MoveNext())
-                {
-                    Console.Write($"{enumerator1.Current}, ");
-                }
-                enumerator1.Reset();
-                Console.WriteLine("]");
-
-                Console.Write("Enumerator2: [");
-                while (enumerator2.MoveNext())
-                {
-                    Console.Write($"{enumerator2.Current}, ");
-                }
-                enumerator2.Reset();
-                Console.WriteLine("]");
-
-                Console.WriteLine("Used values: ");
-                foreach (var val in used_vals)
-                {
-                    Console.Write($"{val}, ");
-                }
-                Console.WriteLine();
-                Console.Write("Offspring:   [");
-                foreach (var val in offspring)
-                {
-                    Console.Write($"{val}, ");
-                }
-                Console.WriteLine("]");
                 throw new ArgumentException("The generated offspring has different size than the parents!.");
             }
 
