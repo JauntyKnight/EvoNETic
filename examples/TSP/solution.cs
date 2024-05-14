@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using EvoNETic;
 
 class Fitness : IFitnessFunc<int, List<int>, double>
 {
@@ -13,7 +14,7 @@ class Fitness : IFitnessFunc<int, List<int>, double>
     public Fitness()
     {
         _coordinates = new List<List<double>>();
-        using (StreamReader sr = new StreamReader("./TSP/problem.txt"))
+        using (StreamReader sr = new StreamReader("./examples/TSP/problem.txt"))
         {
             while (sr.ReadLine() is string line)
             {
@@ -37,7 +38,7 @@ class Fitness : IFitnessFunc<int, List<int>, double>
             }
         }
 
-        using (StreamReader sr = new StreamReader("./TSP/optimal.txt"))
+        using (StreamReader sr = new StreamReader("./examples/TSP/optimal.txt"))
         {
             List<int> optimalTour = new List<int>();
             while (sr.ReadLine() is string line)

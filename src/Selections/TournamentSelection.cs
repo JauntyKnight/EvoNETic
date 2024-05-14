@@ -2,32 +2,34 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-
-public class TournamentSelection<TGene, TCollection, TFitness> : SelectionBase<TGene, TCollection, TFitness>, ISelection<TGene, TCollection, TFitness>
-    where TGene : IEquatable<TGene>
-    where TCollection : ICollection<TGene>, new()
-    where TFitness : IComparable<TFitness>
+namespace EvoNETic
 {
-    private readonly Random _random;
-    private readonly int _tournamentSize;
-
-    public TournamentSelection(int tournamentSize = 3, Random random = null)
+    public class TournamentSelection<TGene, TCollection, TFitness> : SelectionBase<TGene, TCollection, TFitness>, ISelection<TGene, TCollection, TFitness>
+        where TGene : IEquatable<TGene>
+        where TCollection : ICollection<TGene>, new()
+        where TFitness : IComparable<TFitness>
     {
-        _random = random ?? new Random();
-        _tournamentSize = tournamentSize;
-    }
+        private readonly Random _random;
+        private readonly int _tournamentSize;
 
-    protected override IChromosome<TGene, TCollection, TFitness> SelectOne(IPopulation<TGene, TCollection, TFitness> population)
-    {
-        var selected = new List<IChromosome<TGene, TCollection, TFitness>>(_tournamentSize);
-        var populationList = new List<IChromosome<TGene, TCollection, TFitness>>(population.Chromosomes);
-
-        for (int i = 0; i < _tournamentSize; i++)
+        public TournamentSelection(int tournamentSize = 3, Random random = null)
         {
-            var index = _random.Next(populationList.Count);
-            selected.Add(populationList[index]);
+            _random = random ?? new Random();
+            _tournamentSize = tournamentSize;
         }
 
-        return selected.MaxBy(c => c.Fitness);
+        protected override IChromosome<TGene, TCollection, TFitness> SelectOne(IPopulation<TGene, TCollection, TFitness> population)
+        {
+            var selected = new List<IChromosome<TGene, TCollection, TFitness>>(_tournamentSize);
+            var populationList = new List<IChromosome<TGene, TCollection, TFitness>>(population.Chromosomes);
+
+            for (int i = 0; i < _tournamentSize; i++)
+            {
+                var index = _random.Next(populationList.Count);
+                selected.Add(populationList[index]);
+            }
+
+            return selected.MaxBy(c => c.Fitness);
+        }
     }
 }

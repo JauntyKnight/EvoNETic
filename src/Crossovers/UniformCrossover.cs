@@ -1,49 +1,52 @@
 using System;
 using System.Collections.Generic;
 
-public class UniformCrossover<TGene, TCollection, TFitness> : ICrossover<TGene, TCollection, TFitness>
-    where TGene : IEquatable<TGene>
-    where TCollection : ICollection<TGene>, new()
-    where TFitness : IComparable<TFitness>
+namespace EvoNETic
 {
-    private readonly Random _random;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="UniformCrossover{TGene, TCollection}"/> class.
-    /// </summary>
-    /// <param name="random"></param>
-    public UniformCrossover(Random random = null)
+    public class UniformCrossover<TGene, TCollection, TFitness> : ICrossover<TGene, TCollection, TFitness>
+        where TGene : IEquatable<TGene>
+        where TCollection : ICollection<TGene>, new()
+        where TFitness : IComparable<TFitness>
     {
-        _random = random ?? new Random();
-    }
+        private readonly Random _random;
 
-    public IChromosome<TGene, TCollection, TFitness> Cross(IChromosome<TGene, TCollection, TFitness> chromosome1, IChromosome<TGene, TCollection, TFitness> chromosome2)
-    {
-        if (chromosome1.Length != chromosome2.Length)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UniformCrossover{TGene, TCollection}"/> class.
+        /// </summary>
+        /// <param name="random"></param>
+        public UniformCrossover(Random random = null)
         {
-            throw new ArgumentException("The chromosomes must have the same length.");
+            _random = random ?? new Random();
         }
 
-        var offspring = new TCollection();
-
-        var enumerator1 = chromosome1.GetEnumerator();
-        var enumerator2 = chromosome2.GetEnumerator();
-
-        for (int i = 0; i < chromosome1.Length; i++)
+        public IChromosome<TGene, TCollection, TFitness> Cross(IChromosome<TGene, TCollection, TFitness> chromosome1, IChromosome<TGene, TCollection, TFitness> chromosome2)
         {
-            if (_random.NextDouble() < 0.5)
+            if (chromosome1.Length != chromosome2.Length)
             {
-                offspring.Add(enumerator1.Current);
-            }
-            else
-            {
-                offspring.Add(enumerator2.Current);
+                throw new ArgumentException("The chromosomes must have the same length.");
             }
 
-            enumerator1.MoveNext();
-            enumerator2.MoveNext();
+            var offspring = new TCollection();
+
+            var enumerator1 = chromosome1.GetEnumerator();
+            var enumerator2 = chromosome2.GetEnumerator();
+
+            for (int i = 0; i < chromosome1.Length; i++)
+            {
+                if (_random.NextDouble() < 0.5)
+                {
+                    offspring.Add(enumerator1.Current);
+                }
+                else
+                {
+                    offspring.Add(enumerator2.Current);
+                }
+
+                enumerator1.MoveNext();
+                enumerator2.MoveNext();
+            }
+
+            return new Chromosome<TGene, TCollection, TFitness>(offspring);
         }
-
-        return new Chromosome<TGene, TCollection, TFitness>(offspring);
     }
 }

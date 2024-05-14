@@ -1,21 +1,23 @@
 using System;
 using System.Collections.Generic;
 
-
-public abstract class SelectionBase<TGene, TCollection, TFitness> : ISelection<TGene, TCollection, TFitness>
-    where TGene : IEquatable<TGene>
-    where TCollection : ICollection<TGene>, new()
-    where TFitness : IComparable<TFitness>
+namespace EvoNETic
 {
-    protected abstract IChromosome<TGene, TCollection, TFitness> SelectOne(IPopulation<TGene, TCollection, TFitness> population);
-
-    public IList<IChromosome<TGene, TCollection, TFitness>> Select(IPopulation<TGene, TCollection, TFitness> population, int number)
+    public abstract class SelectionBase<TGene, TCollection, TFitness> : ISelection<TGene, TCollection, TFitness>
+        where TGene : IEquatable<TGene>
+        where TCollection : ICollection<TGene>, new()
+        where TFitness : IComparable<TFitness>
     {
-        var selected = new List<IChromosome<TGene, TCollection, TFitness>>(number);
-        for (int i = 0; i < number; i++)
+        protected abstract IChromosome<TGene, TCollection, TFitness> SelectOne(IPopulation<TGene, TCollection, TFitness> population);
+
+        public IList<IChromosome<TGene, TCollection, TFitness>> Select(IPopulation<TGene, TCollection, TFitness> population, int number)
         {
-            selected.Add(SelectOne(population));
+            var selected = new List<IChromosome<TGene, TCollection, TFitness>>(number);
+            for (int i = 0; i < number; i++)
+            {
+                selected.Add(SelectOne(population));
+            }
+            return selected;
         }
-        return selected;
     }
 }

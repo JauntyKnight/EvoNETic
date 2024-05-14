@@ -2,52 +2,55 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Population<TGene, TCollection, TFitness> : IPopulation<TGene, TCollection, TFitness>
-    where TGene : IEquatable<TGene>
-    where TCollection : ICollection<TGene>, new()
-    where TFitness : IComparable<TFitness>
+namespace EvoNETic
 {
-    public int Size { get; }
-
-    public ICollection<IChromosome<TGene, TCollection, TFitness>> Chromosomes { get; }
-
-    public Population(ICollection<IChromosome<TGene, TCollection, TFitness>> chromosomes)
+    public class Population<TGene, TCollection, TFitness> : IPopulation<TGene, TCollection, TFitness>
+        where TGene : IEquatable<TGene>
+        where TCollection : ICollection<TGene>, new()
+        where TFitness : IComparable<TFitness>
     {
-        Chromosomes = new List<IChromosome<TGene, TCollection, TFitness>>(chromosomes);
-        Size = Chromosomes.Count;
-    }
+        public int Size { get; }
 
-    public Population(ICollection<ICollection<TGene>> genotype)
-    {
-        Chromosomes = new List<IChromosome<TGene, TCollection, TFitness>>();
+        public ICollection<IChromosome<TGene, TCollection, TFitness>> Chromosomes { get; }
 
-        foreach (var chromosome in genotype)
+        public Population(ICollection<IChromosome<TGene, TCollection, TFitness>> chromosomes)
         {
-            Chromosomes.Add(new Chromosome<TGene, TCollection, TFitness>(chromosome));
+            Chromosomes = new List<IChromosome<TGene, TCollection, TFitness>>(chromosomes);
+            Size = Chromosomes.Count;
         }
 
-        Size = Chromosomes.Count;
-    }
-
-    public Population(int populationSize, Func<TGene> geneFactory, int chromosomeSize)
-    {
-        Chromosomes = new List<IChromosome<TGene, TCollection, TFitness>>();
-
-        for (int i = 0; i < populationSize; i++)
+        public Population(ICollection<ICollection<TGene>> genotype)
         {
-            Chromosomes.Add(new Chromosome<TGene, TCollection, TFitness>(geneFactory, chromosomeSize));
+            Chromosomes = new List<IChromosome<TGene, TCollection, TFitness>>();
+
+            foreach (var chromosome in genotype)
+            {
+                Chromosomes.Add(new Chromosome<TGene, TCollection, TFitness>(chromosome));
+            }
+
+            Size = Chromosomes.Count;
         }
 
-        Size = Chromosomes.Count;
-    }
+        public Population(int populationSize, Func<TGene> geneFactory, int chromosomeSize)
+        {
+            Chromosomes = new List<IChromosome<TGene, TCollection, TFitness>>();
 
-    public IEnumerator<IChromosome<TGene, TCollection, TFitness>> GetEnumerator()
-    {
-        return Chromosomes.GetEnumerator();
-    }
+            for (int i = 0; i < populationSize; i++)
+            {
+                Chromosomes.Add(new Chromosome<TGene, TCollection, TFitness>(geneFactory, chromosomeSize));
+            }
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
+            Size = Chromosomes.Count;
+        }
+
+        public IEnumerator<IChromosome<TGene, TCollection, TFitness>> GetEnumerator()
+        {
+            return Chromosomes.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }
