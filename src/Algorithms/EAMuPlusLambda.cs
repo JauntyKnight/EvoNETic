@@ -74,8 +74,12 @@ namespace EvoNETic
 
                 for (int i = 0; i < _lambda; i++)
                 {
-                    var parentsPair = Selection.Select(population, 2);
-                    var offspringChromosome = Crossover.Cross(parentsPair[0], parentsPair[1]);
+                    var parentsPair = Selection.Select(population, 2).GetEnumerator();
+                    parentsPair.MoveNext();
+                    var parent1 = parentsPair.Current;
+                    parentsPair.MoveNext();
+                    var parent2 = parentsPair.Current;
+                    var offspringChromosome = Crossover.Cross(parent1, parent2);
                     offspringChromosome = Mutation.Mutate(offspringChromosome);
 
                     // evaluate the fitness of the offspring and add it to the offspring list
