@@ -11,7 +11,7 @@ namespace EvoNETic
         private readonly Random _random;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UniformCrossover{TGene, TCollection}"/> class.
+        /// Initializes a new instance of the <see cref="UniformCrossover{TGene, TCollection, TCollection}"/> class.
         /// </summary>
         /// <param name="random"></param>
         public UniformCrossover(Random random = null)

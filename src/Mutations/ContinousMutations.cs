@@ -16,6 +16,7 @@ namespace EvoNETic
         /// <summary>
         /// Mutate the chromosome by replacing each gene with a random integer value from a uniform distribution.
         /// </summary>
+        /// <param name="mutationProbability">The probability of the chromosome getting mutated</param>
         /// <param name="mu">The mean of the distribution</param>
         /// <param name="sigma">The standard deviation of the distribution</param>
         /// <param name="indpb">The probability of replacing a single gene</param>
@@ -32,11 +33,7 @@ namespace EvoNETic
         /// <summary>
         /// Mutate the chromosome by replacing each gene with a random integer value from a uniform distribution.
         /// </summary>
-        /// <param name="chromosome"></param>
-        /// <param name="mutationProbability"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
+
         public IChromosome<double, TCollection, TFitness> Mutate(IChromosome<double, TCollection, TFitness> chromosome)
         {
             if (chromosome == null) throw new ArgumentNullException(nameof(chromosome));

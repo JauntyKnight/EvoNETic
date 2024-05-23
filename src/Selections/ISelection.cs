@@ -13,8 +13,7 @@ namespace EvoNETic
         /// Selects a list of count chromosomes from the population, according to their fitness.
         /// All Selection classes assume that the population's fitness is already calculated.
         /// </summary>
-        /// <param name="population"></param>
-        /// <returns></returns>
-        IList<IChromosome<TGene, TCollection, TFitness>> Select(IPopulation<TGene, TCollection, TFitness> population, int count);
+
+        ICollection<IChromosome<TGene, TCollection, TFitness>> Select(IPopulation<TGene, TCollection, TFitness> population, int count);
     }
 }

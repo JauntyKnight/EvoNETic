@@ -8,6 +8,10 @@ namespace EvoNETic
         where TCollection : ICollection<TGene>
         where TFitness : IComparable<TFitness>
     {
+        /// <summary>
+        /// A population is a collection of chromosomes.
+        /// </summary>
+
         int Size { get; }
 
         ICollection<IChromosome<TGene, TCollection, TFitness>> Chromosomes { get; }

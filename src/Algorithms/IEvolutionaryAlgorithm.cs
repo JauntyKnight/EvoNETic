@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace EvoNETic
 {
+    /// <summary>
+    /// A generic interface for evolutionary algorithms.
+    /// </summary>
+
     public interface IEvolutionaryAlgorithm<TGene, TCollection, TFitness>
         where TGene : IEquatable<TGene>
         where TCollection : ICollection<TGene>, new()

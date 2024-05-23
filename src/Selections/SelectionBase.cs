@@ -10,7 +10,7 @@ namespace EvoNETic
     {
         protected abstract IChromosome<TGene, TCollection, TFitness> SelectOne(IPopulation<TGene, TCollection, TFitness> population);
 
-        public IList<IChromosome<TGene, TCollection, TFitness>> Select(IPopulation<TGene, TCollection, TFitness> population, int number)
+        public ICollection<IChromosome<TGene, TCollection, TFitness>> Select(IPopulation<TGene, TCollection, TFitness> population, int number)
         {
             var selected = new List<IChromosome<TGene, TCollection, TFitness>>(number);
             for (int i = 0; i < number; i++)
